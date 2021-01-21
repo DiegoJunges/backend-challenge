@@ -1,23 +1,21 @@
-import { v4 as uuid } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('places')
 class Place {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   country: string;
 
+  @Column()
   location: string;
 
-  goal: number;
+  @Column()
+  goal: string;
 
+  @Column()
   flag: string;
-
-  constructor({ country, location, goal, flag }: Omit<Place, 'id'>) {
-    this.id = uuid();
-    this.country = country;
-    this.location = location;
-    this.goal = goal;
-    this.flag = flag;
-  }
 }
 
 export default Place;
