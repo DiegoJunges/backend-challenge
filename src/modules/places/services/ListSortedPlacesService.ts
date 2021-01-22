@@ -1,27 +1,21 @@
 import 'reflect-metadata';
 import { getCustomRepository } from 'typeorm';
 
-import Place from '../models/Place';
-import PlacesRepository from '../repositories/PlacesRepository';
+import Place from '@modules/places/infra/typeorm/entities/Place';
+import AppError from '@shared/errors/AppError';
+import PlacesRepository from '@modules/places/infra/typeorm/repositories/PlacesRepository';
 
 class ListSortedPlacesService {
-  // private placesRepository: PlacesRepository;
-
-  // constructor(placesRepository: PlacesRepository) {
-  //   this.placesRepository = placesRepository;
-  // }
-
   public async execute(): Promise<Place[]> {
     const placesRepository = getCustomRepository(PlacesRepository);
 
     const places = await placesRepository.find();
+
     if (places.length <= 0) {
-      throw Error('No places are found');
+      throw new AppError('No places found');
     }
 
-    // const sortPlacesByGoal = places.sort(
-    //   (a, b) => Number(a.goal) - Number(b.goal),
-    // );
+    // Using implicit casting to compare goal(Date) but only for comparison purposes not for subtraction.
 
     const sortPlacesByGoal = places.sort((a, b) => {
       if (a.goal === b.goal) {

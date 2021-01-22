@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import placesRouter from './places.routes';
+import placesRouter from '@modules/places/infra/http/routes/places.routes';
 
 const routes = Router();
 

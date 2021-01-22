@@ -12,10 +12,10 @@ class Place {
   location: string;
 
   @Column()
-  goal: string;
+  goal: Date;
 
   @Column()
-  flag: string;
+  flag_url: string;
 }
 
 export default Place;

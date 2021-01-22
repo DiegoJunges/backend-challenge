@@ -24,10 +24,10 @@ export default class CreatePlaces1611084485467 implements MigrationInterface {
           },
           {
             name: 'goal',
-            type: 'varchar',
+            type: 'timestamp with time zone',
           },
           {
-            name: 'flag',
+            name: 'flag_url',
             type: 'varchar',
           },
           {
