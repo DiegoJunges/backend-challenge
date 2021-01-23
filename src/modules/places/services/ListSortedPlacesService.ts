@@ -1,21 +1,25 @@
 import 'reflect-metadata';
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 
 import Place from '@modules/places/infra/typeorm/entities/Place';
 import AppError from '@shared/errors/AppError';
-import PlacesRepository from '@modules/places/infra/typeorm/repositories/PlacesRepository';
+import IPlaceRepository from '../repositories/IPlaceRepository';
 
+@injectable()
 class ListSortedPlacesService {
-  public async execute(): Promise<Place[]> {
-    const placesRepository = getCustomRepository(PlacesRepository);
+  constructor(
+    @inject('PlacesRepository')
+    private placeRepository: IPlaceRepository,
+  ) {}
 
-    const places = await placesRepository.find();
+  public async execute(): Promise<Place[]> {
+    const places = await this.placeRepository.find();
 
     if (places.length <= 0) {
       throw new AppError('No places found');
     }
 
-    // Using implicit casting to compare goal(Date) but only for comparison purposes not for subtraction.
+    // Logic to list places by crescent date, using implicit casting to compare goal(Date) but only for comparison purposes not for subtraction.
 
     const sortPlacesByGoal = places.sort((a, b) => {
       if (a.goal === b.goal) {

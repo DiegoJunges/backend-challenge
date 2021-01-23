@@ -1,25 +1,21 @@
 import 'reflect-metadata';
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 
-import PlacesRepository from '@modules/places/infra/typeorm/repositories/PlacesRepository';
-
-import AppError from '@shared/errors/AppError';
+import IPlaceRepository from '../repositories/IPlaceRepository';
 
 interface IRequest {
   id: string;
 }
 
+@injectable()
 class DeleteProductService {
+  constructor(
+    @inject('PlacesRepository')
+    private placesRepository: IPlaceRepository,
+  ) {}
+
   public async execute({ id }: IRequest): Promise<void> {
-    const placesRepository = getCustomRepository(PlacesRepository);
-
-    const product = await placesRepository.findOne(id);
-
-    if (!product) {
-      throw new AppError('Product does not exist');
-    }
-
-    await placesRepository.delete(product.id);
+    await this.placesRepository.delete(id);
   }
 }
 
