@@ -51,6 +51,10 @@ class FakePlacesRepository implements IPlaceRepository {
 
     Object.assign(place, { id: uuid(), location, goal });
 
+    place.location = location;
+
+    place.goal = goal;
+
     this.places.push(place);
 
     return place;
