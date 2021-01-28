@@ -1,19 +1,22 @@
-FROM node:12-slim
+FROM node:12
 
-WORKDIR usr/src/app
+WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json /app
 
-COPY yarn.lock ./
-
-RUN yarn --production
+RUN yarn install --production
 
 COPY . .
 
 RUN yarn build
 
-COPY . .
+COPY ormconfig.js /app
 
-EXPOSE 8080
-CMD ["node", "dist/index.js"]
+ENV NODE_ENV production
+
+RUN rm -rf src/
+
+CMD ["node", "dist/shared/infra/http/server.js"]
+
+
 

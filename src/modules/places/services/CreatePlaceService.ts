@@ -1,7 +1,5 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
-import { getCustomRepository } from 'typeorm';
-import PlacesRepository from '@modules/places/infra/typeorm/repositories/PlacesRepository';
 
 import AppError from '@shared/errors/AppError';
 
